@@ -104,8 +104,10 @@ function App() {
             const isRelevant = status === 'Completed' || status === 'Watching' || status === 'On-Hold';
             if (isRelevant && jikanData.popularity <= 1000) {
               totalAll++;
+              console.log(`Incremented totalAll for Anime ID: ${originalAnime.series_animedb_id}, Status: ${status}, Popularity: ${jikanData.popularity}`);
               if (status === 'Completed') {
                 totalCompleted++;
+                console.log(`Incremented totalCompleted for Anime ID: ${originalAnime.series_animedb_id}`);
               }
             }
           }
@@ -162,6 +164,7 @@ function App() {
 
     if (parsedData.myanimelist && parsedData.myanimelist.anime) {
       const allAnime = parsedData.myanimelist.anime;
+      console.log('Total anime entries read from XML (before filtering):', allAnime.length);
       
       setAnimeList(allAnime);
       setCompletedTop1000(0);
