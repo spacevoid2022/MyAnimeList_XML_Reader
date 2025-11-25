@@ -1,0 +1,14 @@
+.file-upload {
+  margin: 20px;
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.file-upload label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: #666;
+}

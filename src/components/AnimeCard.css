@@ -1,0 +1,94 @@
+.anime-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.anime-card:hover {
+  transform: scale(1.05);
+}
+
+.anime-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anime-card-image-container {
+  width: 100%;
+  aspect-ratio: 2 / 3; /* Common aspect ratio for anime posters */
+  background-color: #e0e0e0;
+}
+
+.placeholder-image {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+}
+
+.anime-card-info {
+  padding: 15px;
+}
+
+.anime-card-info h3 {
+  margin: 0 0 10px;
+  font-size: 1.1em;
+}
+
+.anime-card-info p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.debug-section {
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #ffcccc;
+  background-color: #fff5f5;
+  border-radius: 5px;
+  word-wrap: break-word;
+}
+
+.debug-section strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #c53030;
+}
+
+.debug-section code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85em;
+  color: #333;
+}
+
+.popularity-section {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.popularity-section button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85em;
+  transition: background-color 0.2s;
+}
+
+.popularity-section button:hover {
+  background-color: #0056b3;
+}
+
+.popularity-section .error {
+  color: red;
+  font-size: 0.8em;
+}
