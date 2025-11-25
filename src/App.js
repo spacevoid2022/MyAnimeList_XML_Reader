@@ -3,6 +3,7 @@ import { XMLParser } from 'fast-xml-parser';
 import FileUpload from './components/FileUpload';
 import AnimeList from './components/AnimeList';
 import './App.css';
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   const [animeList, setAnimeList] = useState([]);
@@ -230,9 +231,9 @@ function App() {
             <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
           </div>
         )}
-      </main>
-    </div>
-  );
-}
+              </main>
+            <SpeedInsights />
+          </div>
+        );}
 
 export default App;
