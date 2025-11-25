@@ -11,6 +11,10 @@ function App() {
   const [isCalculating, setIsCalculating] = useState(false);
   const calculationRef = useRef(0); // Used to track the current calculation job
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 16; // 2 rows * 8 cards per row = 16
+
   const fetchAndProcessDetails = async (queue, runId) => {
     const BATCH_SIZE = 3;
     let totalCompleted = 0;
@@ -96,11 +100,22 @@ function App() {
       setCompletedTop1000(0);
       setAllTop1000(0);
       setIsCalculating(true);
+      setCurrentPage(1); // Reset to first page on new upload
       
       // We process all anime to get their images and popularity
       fetchAndProcessDetails(allAnime, currentRunId);
     }
   };
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentAnimeCards = animeList.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(animeList.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, totalPages));
+  const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
 
   return (
     <div className="App">
@@ -119,7 +134,15 @@ function App() {
       </header>
       <main>
         <FileUpload onFileParsed={handleFileParsed} />
-        <AnimeList animeList={animeList} />
+        <AnimeList animeList={currentAnimeCards} />
+
+        {animeList.length > itemsPerPage && (
+          <div className="pagination">
+            <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
+            <span>Page {currentPage} of {totalPages}</span>
+            <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+          </div>
+        )}
       </main>
     </div>
   );

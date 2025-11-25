@@ -1,6 +1,26 @@
 .anime-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(8, 1fr); /* 8 columns */
   gap: 20px;
   padding: 20px;
+}
+
+.anime-card-image-container {
+  width: 100%;
+  aspect-ratio: 2 / 3; /* Common aspect ratio for anime posters */
+  background-color: #e0e0e0;
+}
+
+.placeholder-image {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+  font-size: 0.9em;
+  text-align: center;
+  padding: 10px; /* Add padding here */
+  box-sizing: border-box; /* Include padding in element's total width and height */
 }

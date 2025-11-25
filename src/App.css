@@ -13,6 +13,12 @@
   font-size: 2em;
 }
 
+main {
+  max-width: 1600px; /* Provide enough space for 10 cards */
+  margin: 0 auto; /* Center the main content area */
+  padding: 0 20px; /* Add some padding on the sides */
+}
+
 .counters {
   display: flex;
   justify-content: center;
@@ -33,4 +39,37 @@
 .counter-value {
   font-weight: bold;
   font-size: 1.5em;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.pagination button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 1.1em;
+  color: #333;
 }
