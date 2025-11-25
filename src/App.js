@@ -5,6 +5,19 @@ import AnimeList from './components/AnimeList';
 import './App.css';
 import { SpeedInsights } from "@vercel/speed-insights/react";
 
+// Simple hash function for generating cache keys
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
+
+const CACHE_PREFIX = 'mal_reader_xml_';
+
 function App() {
   const [animeList, setAnimeList] = useState([]);
   const [completedTop1000, setCompletedTop1000] = useState(0);
@@ -125,8 +138,24 @@ function App() {
     calculationRef.current += 1;
     const currentRunId = calculationRef.current;
 
-    const parser = new XMLParser();
-    const parsedData = parser.parse(xmlData);
+    const xmlHash = hashCode(xmlData);
+    const cachedData = localStorage.getItem(CACHE_PREFIX + xmlHash);
+
+    let parsedData;
+    if (cachedData) {
+      console.log('Using cached XML data.');
+      parsedData = JSON.parse(cachedData);
+    } else {
+      console.log('Parsing new XML data and caching it.');
+      const parser = new XMLParser();
+      parsedData = parser.parse(xmlData);
+      try {
+        localStorage.setItem(CACHE_PREFIX + xmlHash, JSON.stringify(parsedData));
+      } catch (e) {
+        console.error('Failed to cache XML data in localStorage:', e);
+        // Optionally, implement a cleanup strategy here if storage is full
+      }
+    }
 
     if (parsedData.myanimelist && parsedData.myanimelist.anime) {
       const allAnime = parsedData.myanimelist.anime;
