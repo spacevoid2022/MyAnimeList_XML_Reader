@@ -15,6 +15,32 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 16; // 2 rows * 8 cards per row = 16
 
+  const retryFetch = async (url, attempts = 3, delay = 500) => {
+    for (let i = 0; i < attempts; i++) {
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          return response;
+        }
+        // If it's a 429 (Too Many Requests) or similar temporary error, retry
+        if (response.status === 429 || response.status >= 500) {
+          console.warn(`API call failed with status ${response.status}. Retrying in ${delay}ms...`);
+          await new Promise(res => setTimeout(res, delay));
+          delay *= 2; // Exponential backoff
+        } else {
+          // Other non-retryable errors
+          console.error(`API call failed with status ${response.status} for ${url}`);
+          return Promise.reject(`Failed with status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(`API call failed: ${error.message}. Retrying in ${delay}ms...`);
+        await new Promise(res => setTimeout(res, delay));
+        delay *= 2; // Exponential backoff
+      }
+    }
+    return Promise.reject(`Failed to fetch ${url} after ${attempts} attempts`);
+  };
+
   const fetchAndProcessDetails = async (queue, runId) => {
     const BATCH_SIZE = 3;
     let totalCompleted = 0;
@@ -26,10 +52,10 @@ function App() {
       const batch = queue.slice(i, i + BATCH_SIZE);
       
       const promises = batch.map(anime => 
-        fetch(`https://api.jikan.moe/v4/anime/${anime.series_animedb_id}`)
-          .then(res => res.ok ? res.json() : Promise.reject(`Failed to fetch ${anime.series_animedb_id}`))
-          .then(response => ({ response, animeId: anime.series_animedb_id }))
-          .catch(() => null)
+        retryFetch(`https://api.jikan.moe/v4/anime/${anime.series_animedb_id}`)
+          .then(response => response.json()) // Parse JSON after successful fetch
+          .then(data => ({ data, animeId: anime.series_animedb_id }))
+          .catch(() => null) // Handle overall failure of this specific anime fetch
       );
 
       const results = await Promise.all(promises);
@@ -38,8 +64,8 @@ function App() {
 
       const updates = [];
       for (const result of results) {
-        if (result && result.response && result.response.data) {
-          const jikanData = result.response.data;
+        if (result && result.data && result.data.data) { // Ensure data is present
+          const jikanData = result.data.data;
           const originalAnime = queue.find(a => a.series_animedb_id === result.animeId);
 
           if (originalAnime) {
