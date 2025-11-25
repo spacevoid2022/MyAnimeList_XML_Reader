@@ -1,6 +1,15 @@
 import React from 'react';
 import './AnimeCard.css';
 
+const MAX_TITLE_LENGTH = 35; // Define max length for titles
+
+const truncateTitle = (title, maxLength) => {
+  if (title.length > maxLength) {
+    return title.substring(0, maxLength) + '...';
+  }
+  return title;
+};
+
 const AnimeCard = ({ anime }) => {
   // This is now a "dumb" component. It only renders the props it's given.
   // All data fetching and state management is handled by the App component.
@@ -18,7 +27,7 @@ const AnimeCard = ({ anime }) => {
         )}
       </div>
       <div className="anime-card-info">
-        <h3>{anime.series_title}</h3>
+        <h3>{truncateTitle(anime.series_title, MAX_TITLE_LENGTH)}</h3>
         <p>Score: {anime.my_score}</p>
         <p>Status: {anime.my_status}</p>
         <p>Progress: {anime.my_watched_episodes} / {anime.series_episodes}</p>
