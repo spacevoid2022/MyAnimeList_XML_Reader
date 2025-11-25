@@ -117,6 +117,40 @@ function App() {
   const nextPage = () => setCurrentPage(prev => Math.min(prev + 1, totalPages));
   const prevPage = () => setCurrentPage(prev => Math.max(prev - 1, 1));
 
+  // Ellipsis pagination logic
+  const generatePageNumbers = () => {
+    const pageNumbers = [];
+    const maxPageButtons = 7; // Max number of page buttons to show (including start, end, and current around)
+
+    if (totalPages <= maxPageButtons) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      const leftBound = Math.max(1, currentPage - 2);
+      const rightBound = Math.min(totalPages, currentPage + 2);
+
+      if (leftBound > 1) {
+        pageNumbers.push(1);
+        if (leftBound > 2) {
+          pageNumbers.push('...');
+        }
+      }
+
+      for (let i = leftBound; i <= rightBound; i++) {
+        pageNumbers.push(i);
+      }
+
+      if (rightBound < totalPages) {
+        if (rightBound < totalPages - 1) {
+          pageNumbers.push('...');
+        }
+        pageNumbers.push(totalPages);
+      }
+    }
+    return pageNumbers;
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -139,7 +173,19 @@ function App() {
         {animeList.length > itemsPerPage && (
           <div className="pagination">
             <button onClick={prevPage} disabled={currentPage === 1}>Previous</button>
-            <span>Page {currentPage} of {totalPages}</span>
+            {generatePageNumbers().map((number, index) => (
+              typeof number === 'number' ? (
+                <button 
+                  key={index} 
+                  onClick={() => paginate(number)} 
+                  className={currentPage === number ? 'active' : ''}
+                >
+                  {number}
+                </button>
+              ) : (
+                <span key={index} className="ellipsis">...</span>
+              )
+            ))}
             <button onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
           </div>
         )}
