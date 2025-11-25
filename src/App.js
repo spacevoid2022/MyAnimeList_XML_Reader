@@ -1,9 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, lazy, Suspense } from 'react';
 import { XMLParser } from 'fast-xml-parser';
 import FileUpload from './components/FileUpload';
-import AnimeList from './components/AnimeList';
+// import AnimeList from './components/AnimeList'; 
 import './App.css';
 import { SpeedInsights } from "@vercel/speed-insights/react";
+
+// Lazy-load the AnimeList component
+const LazyAnimeList = lazy(() => import('./components/AnimeList'));
 
 // Simple hash function for generating cache keys
 function hashCode(str) {
@@ -239,7 +242,9 @@ function App() {
       </header>
       <main>
         <FileUpload onFileParsed={handleFileParsed} />
-        <AnimeList animeList={currentAnimeCards} />
+        <Suspense fallback={<div>Loading Anime List...</div>}>
+          <LazyAnimeList animeList={currentAnimeCards} />
+        </Suspense>
 
         {animeList.length > itemsPerPage && (
           <div className="pagination">
