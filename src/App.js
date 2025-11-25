@@ -11,6 +11,10 @@ function App() {
   const [isCalculating, setIsCalculating] = useState(false);
   const calculationRef = useRef(0); // Used to track the current calculation job
 
+  // Progress states
+  const [totalAnimeToProcess, setTotalAnimeToProcess] = useState(0);
+  const [processedAnimeCount, setProcessedAnimeCount] = useState(0);
+
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 16; // 2 rows * 8 cards per row = 16
@@ -45,6 +49,7 @@ function App() {
     const BATCH_SIZE = 3;
     let totalCompleted = 0;
     let totalAll = 0;
+    let processedThisRun = 0; // Declare and initialize here
 
     for (let i = 0; i < queue.length; i += BATCH_SIZE) {
       if (runId !== calculationRef.current) return;
@@ -102,6 +107,9 @@ function App() {
       setCompletedTop1000(totalCompleted);
       setAllTop1000(totalAll);
 
+      processedThisRun += batch.length;
+      setProcessedAnimeCount(processedThisRun); // Update progress
+      
       if (i + BATCH_SIZE < queue.length) {
         await new Promise(resolve => setTimeout(resolve, 500));
       }
@@ -125,6 +133,8 @@ function App() {
       setAnimeList(allAnime);
       setCompletedTop1000(0);
       setAllTop1000(0);
+      setProcessedAnimeCount(0); // Reset progress
+      setTotalAnimeToProcess(allAnime.length); // Set total for progress
       setIsCalculating(true);
       setCurrentPage(1); // Reset to first page on new upload
       
@@ -191,6 +201,11 @@ function App() {
             <span className="counter-value">{isCalculating ? 'Calculating...' : allTop1000}</span>
           </div>
         </div>
+        {isCalculating && totalAnimeToProcess > 0 && (
+          <div className="progress-indicator">
+            Processing: {processedAnimeCount} / {totalAnimeToProcess} anime
+          </div>
+        )}
       </header>
       <main>
         <FileUpload onFileParsed={handleFileParsed} />

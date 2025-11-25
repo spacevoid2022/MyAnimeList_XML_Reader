@@ -79,3 +79,10 @@ main {
   color: #333;
   padding: 8px 0; /* Align with button height */
 }
+
+.progress-indicator {
+  margin-top: 15px;
+  font-size: 1em;
+  color: #a0a0a0;
+  font-weight: bold;
+}
