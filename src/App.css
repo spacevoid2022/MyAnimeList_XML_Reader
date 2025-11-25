@@ -69,7 +69,13 @@ main {
   cursor: not-allowed;
 }
 
-.pagination span {
+.pagination button.active {
+  background-color: #004085; /* Darker blue for active page */
+  font-weight: bold;
+}
+
+.pagination span.ellipsis {
   font-size: 1.1em;
   color: #333;
+  padding: 8px 0; /* Align with button height */
 }
