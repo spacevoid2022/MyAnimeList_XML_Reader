@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+# MyAnimeList XML Reader
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application allows you to upload an XML export of your MyAnimeList anime list and gain insights into your viewing habits.
 
-## Available Scripts
+## Features:
+- **Visualize Your List:** Displays your anime entries in an easy-to-read card format, complete with official cover images (fetched automatically from MyAnimeList via Jikan API).
+- **Popularity Counters:**
+    - **Completed in Top 1000:** Counts how many of your *completed* anime fall within the top 1000 most popular anime on MyAnimeList.
+    - **All Activity in Top 1000:** Counts how many of your *currently watching, on-hold, or completed* anime fall within the top 1000 most popular anime on MyAnimeList.
+- **Dynamic Data:** Images, popularity rank, and member counts are fetched from the Jikan API after uploading your XML file, providing up-to-date information.
 
-In the project directory, you can run:
+## How to Use:
+1.  **Download Your MyAnimeList XML:** Go to MyAnimeList, navigate to your anime list, and find the option to export your list as an XML file.
+2.  **Upload to the App:** Open this application in your web browser and upload the XML file you downloaded.
+3.  **View Your Insights:** The application will then display your anime, their images, and the calculated popularity counters.
 
-### `npm start`
+## Technical Details:
+- Built with React.
+- Uses `fast-xml-parser` for XML parsing.
+- Fetches dynamic anime data (images, rank, members) from the Jikan API (jikan.moe).
+- Implements a batched, rate-limited fetching mechanism to efficiently retrieve data for all your anime without overloading the API.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Getting Started (Development):
+To run this project locally:
+1.  Clone the repository.
+2.  Navigate to the project directory: `cd MyAnimeList_XML_Reader`
+3.  Install dependencies: `npm install`
+4.  Start the development server: `npm start`
+    - This will open the application in your browser at `http://localhost:3000`.
